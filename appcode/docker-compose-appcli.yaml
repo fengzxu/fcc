@@ -1,0 +1,49 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2.1'
+
+networks:
+  example.com:
+    external:
+      name: net_byfn
+
+volumes:
+  appcli:
+
+services:
+  appcli:
+    container_name: appcli
+    image: hyperledger/fabric-tools:1.4.3
+    tty: true
+    stdin_open: true
+#    environment:
+#     - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=net_byfn
+#      - GOPATH=/opt/gopath
+#      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+#      - FABRIC_LOGGING_SPEC=DEBUG
+#      - FABRIC_LOGGING_SPEC=INFO
+#      - CORE_PEER_ID=appcli
+#      - CA_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
+#      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+#      - CORE_PEER_LOCALMSPID=Org1MSP
+#      - CORE_PEER_TLS_ENABLED=true
+#      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt
+#      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
+#      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+#      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+    working_dir: /opt/
+    command: ./fccserver
+    volumes:
+#        - /var/run/:/host/var/run/
+#        - /opt/go/:/opt/go/
+        - ./fccserver/src/fccserver:/opt/fccserver
+        - ./fccserver/src/config.yaml:/opt/config.yaml
+        - ../../first-network/crypto-config/:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+#        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    ports:
+      - 1206:1206
+    networks:
+      - example.com

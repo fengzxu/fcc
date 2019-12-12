@@ -1,0 +1,183 @@
+version: 1.1.0
+
+client:
+  organization: org1
+
+  logging:
+    level: info
+
+  cryptoconfig:
+    path: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto
+  credentialStore:
+    path: /tmp/state-store
+    cryptoStore:
+      path: /tmp/msp
+
+  BCCSP:
+    security:
+      enabled: true
+      default:
+        provider: "SW"
+      hashAlgorithm: "SHA2"
+      softVerify: true
+      level: 256
+
+  tlsCerts:
+    systemCertPool: true
+    client:
+      keyfile: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.key
+      certfile: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.crt
+
+channels:
+  _default:
+    peers:
+      peer0.org1.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer0.org2.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer0.org3.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+    policies:
+      queryChannelConfig:
+        minResponses: 1
+        maxTargets: 1
+        retryOpts:
+          attempts: 5
+          initialBackoff: 500ms
+          maxBackoff: 5s
+          backoffFactor: 2.0
+      selection:
+        SortingStrategy: BlockHeightPriority
+        Balancer: RoundRobin
+        BlockHeightLagThreshold: 5
+      eventService:
+        resolverStrategy: MinBlockHeight
+        balancer: RoundRobin
+        blockHeightLagThreshold: 4
+        reconnectBlockHeightLagThreshold: 8
+        peerMonitorPeriod: 6s
+
+  mychannel:
+    #    orderers:
+    #      - orderer.example.com
+
+    peers:
+      peer0.org1.example.com:
+      #      peer1.org1.example.com:
+      peer0.org2.example.com:
+      #      peer1.org2.example.com:
+      peer0.org3.example.com:
+#      peer1.org3.example.com:
+
+
+
+organizations:
+  org1:
+    mspid: Org1MSP
+    cryptoPath:  /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp
+    peers:
+      - peer0.org1.example.com
+      - peer1.org1.example.com
+
+  org2:
+    mspid: Org2MSP
+    cryptoPath:  /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp
+    peers:
+      - peer0.org2.example.com
+      - peer1.org2.example.com
+
+  org3:
+    mspid: Org3MSP
+    cryptoPath:  /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/User1@org3.example.com/msp
+    peers:
+      - peer0.org3.example.com
+      - peer1.org3.example.com
+  #    certificateAuthorities:
+  #        - ca.org2.example.com
+
+  # Orderer Org name
+  ordererorg:
+    mspID: OrdererMSP
+    cryptoPath: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/users/User1@example.com/msp/
+
+orderers:
+  orderer.example.com:
+    url: orderer.example.com:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.example.com
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: false
+
+    tlsCACerts:
+      path: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
+
+peers:
+  _default:
+    grpcOptions:
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: false
+
+  peer0.org1.example.com:
+    url: peer0.org1.example.com:7051
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+    tlsCACerts:
+      path: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+
+  peer1.org1.example.com:
+    url: peer1.org1.example.com:8051
+    grpcOptions:
+      ssl-target-name-override: peer1.org1.example.com
+    tlsCACerts:
+      path: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+
+  peer0.org2.example.com:
+    url: peer0.org2.example.com:9051
+    grpcOptions:
+      ssl-target-name-override: peer0.org2.example.com
+    tlsCACerts:
+      path: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
+
+  peer1.org2.example.com:
+    url: peer1.org2.example.com:10051
+    grpcOptions:
+      ssl-target-name-override: peer1.org2.example.com
+    tlsCACerts:
+      path: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
+
+  peer0.org3.example.com:
+    url: peer0.org3.example.com:11051
+    grpcOptions:
+      ssl-target-name-override: peer0.org3.example.com
+    tlsCACerts:
+      path: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem
+
+  peer1.org3.example.com:
+    url: peer1.org3.example.com:12051
+    grpcOptions:
+      ssl-target-name-override: peer1.org3.example.com
+    tlsCACerts:
+      path: /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem
+
+
+entityMatchers:
+  orderer:
+    - pattern: orderer(\w*).example.com:(\w*)
+      urlSubstitutionExp: orderer${1}.example.com:${2}
+      sslTargetOverrideUrlSubstitutionExp: orderer${1}.example.com
+      mappedHost: orderer${1}.example.com
