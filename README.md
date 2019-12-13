@@ -25,10 +25,10 @@ wget -O /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos
 yum install -y docker-ce docker-compose git
 ```
 2. 下载超级账本官方超级账本网络示例
+
 若带梯子，下载官方脚本执行：
 ```bash
 curl -sSL http://bit.ly/2ysbOFE | bash -s -- 1.4.3 1.4.3 0.4.15
-./1-1.hy-sample.sh -- 1.4.3 1.4.3 0.4.15 
 ```
 若无梯子，直接运行已下载的脚本执行：
 ```bash
