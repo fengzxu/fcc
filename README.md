@@ -25,10 +25,17 @@ wget -O /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos
 yum install -y docker-ce docker-compose git
 ```
 2. 下载超级账本官方超级账本网络示例
+若带梯子，下载官方脚本执行：
 ```bash
 curl -sSL http://bit.ly/2ysbOFE | bash -s -- 1.4.3 1.4.3 0.4.15
+./1-1.hy-sample.sh -- 1.4.3 1.4.3 0.4.15 
 ```
-将会在当前/opt目录下生成fabric-samples目录，将自动下载命令工具和镜像。
+若无梯子，直接运行已下载的脚本执行：
+```bash
+./1-1.hy-sample.sh -- 1.4.3 1.4.3 0.4.15 
+```
+将会在当前/opt目录下生成fabric-samples目录，并自动下载命令工具和镜像。
+
 3. 将fabric-samples/bin和/opt/go/bin 加入本地PATH
 
 4. 下载本示例
@@ -40,7 +47,7 @@ cd fcc
 5. 启动示例网络，创建区块链网络（2个组织，每组织2个节点）
 ```bash
 chmod +x *.sh
-./1.startNetwork.sh
+./1-2.startNetwork.sh
 ```
 完成后，结果显示：
 ```bash
