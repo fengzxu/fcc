@@ -4,7 +4,7 @@
 - 区域链（基于证书准入的联盟链）网络
 ![网络拓扑](http://xujf000.tk:28888/img/topo.png "网络拓扑")
 - 业务流程时序
-![业务流程时序图](http://xujf000.tk:28888/img/flow.png "业务流程时序图")
+![业务流程时序图](http://xujf000.tk:28888/img/flow.png  "业务流程时序图")
 - ### 关于超级账本
 关于区块链、超级账本、智能合约等概念，请自行谷哥和度娘。建议直接参考官网文档 https://hyperledger-fabric.readthedocs.io/en/release-1.4/ 
 
